@@ -15,15 +15,17 @@ export function PostHeading({
 }: PostHeadingProps) {
   const baseClass = {
     h1: 'text-2xl/tight font-extrabold text-slate-900 sm:text-4xl',
-    h2: 'text-xl/tight font-extrabold text-slate-900 sm:text-3xl',
-    h3: 'text-lg/tight font-extrabold text-slate-900 sm:text-2xl',
-    h4: 'text-md/tight font-extrabold text-slate-900 sm:text-xl',
-    h5: 'text-sm/tight font-extrabold text-slate-900 sm:text-lg',
-    h6: 'text-sm/tight font-extrabold text-slate-900 sm:text-md',
+    h2: 'text-xl/tight font-bold text-slate-900 sm:text-2xl',
+    h3: 'text-lg/tight font-bold text-slate-900 sm:text-2xl',
+    h4: 'text-md/tight font-bold text-slate-900 sm:text-xl',
+    h5: 'text-sm/tight font-bold text-slate-900 sm:text-lg',
+    h6: 'text-sm/tight font-bold text-slate-900 sm:text-md',
   };
   return (
     <Tag className={clsx(baseClass[Tag])}>
-      <Link href={url}>{children}</Link>
+      <Link className='group-hover:text-slate-700' href={url}>
+        {children}
+      </Link>
     </Tag>
   );
 }
