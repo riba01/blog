@@ -3,9 +3,9 @@ import { Header } from '@/components/Header';
 import { PostList } from '@/components/PostList';
 import { SpinLoader } from '@/components/SpinLoader';
 import clsx from 'clsx';
-import Image from 'next/image';
-import Link from 'next/link';
 import { Suspense } from 'react';
+import { PostCoverImage } from '../components/PostCoverImage';
+import { PostHeading } from '../components/PostHeading';
 
 export default async function Home() {
   return (
@@ -17,22 +17,17 @@ export default async function Home() {
           'sm:grid-cols-2 sm:justify-center sm:align-middle',
         )}
       >
-        <Link
-          href='#'
-          className={clsx('w-full h-full overflow-hidden rounded-xl')}
-        >
-          <Image
-            className={clsx(
-              'group-hover:scale-105 transition',
-              'w-full h-full object-cover object-center',
-            )}
-            src='/images/bryen_0.png'
-            width={1200}
-            height={720}
-            alt='Título do post'
-            priority
-          />
-        </Link>
+        <PostCoverImage
+          LinkProps={{
+            href: '#',
+          }}
+          imageProps={{
+            width: 1200,
+            height: 720,
+            src: '/images/bryen_9.png',
+            alt: 'Imagem de capa do post',
+          }}
+        />
         <div
           className={clsx('flex flex-col gap-4 sm:justify-center text-justify')}
         >
@@ -42,14 +37,14 @@ export default async function Home() {
           >
             01/07/2025 22:15
           </time>
-          <h1
-            className={clsx(
-              'text-2xl/tight font-extrabold text-slate-900',
-              'sm:text-3xl',
-            )}
-          >
-            <Link href='#'>Lorem ipsum dolor sit</Link>
-          </h1>
+          <PostHeading as='h2' url='#'>
+            Título do post
+          </PostHeading>
+          <p className='text-slate-600'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+            voluptatum, cumque, voluptates, quia quisquam voluptatibus
+            voluptatum cumque voluptates quia.
+          </p>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Reprehenderit saepe suscipit excepturi ratione officiis. Nulla
