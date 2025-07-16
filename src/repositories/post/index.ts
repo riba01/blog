@@ -1,4 +1,4 @@
-import { JsonPostRepositiry } from './json-post-repositiry';
+import { JsonPostRepository } from './json-post-repository';
 import { PostRepository } from './post-repository';
 
-export const postRepository: PostRepository = new JsonPostRepositiry();
+export const postRepository: PostRepository = new JsonPostRepository();

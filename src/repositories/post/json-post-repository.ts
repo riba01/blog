@@ -13,7 +13,7 @@ const JSON_POST_FILE_PATH = resolve(
 );
 const SIMULATE_WAIT = 0;
 
-export class JsonPostRepositiry implements PostRepository {
+export class JsonPostRepository implements PostRepository {
   private async simulateWait() {
     if (SIMULATE_WAIT <= 0) return;
     await new Promise(resolve => setTimeout(resolve, SIMULATE_WAIT));
