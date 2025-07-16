@@ -1,7 +1,7 @@
 import { PostModel } from '@/models/post/post-model';
-import { PostRepository } from './post-repository';
-import { resolve } from 'path';
 import { readFile } from 'fs/promises';
+import { resolve } from 'path';
+import { PostRepository } from './post-repository';
 
 const ROOT_DIR = process.cwd();
 const JSON_POST_FILE_PATH = resolve(
@@ -25,17 +25,17 @@ export class JsonPostRepositiry implements PostRepository {
     return posts;
   }
 
-  async findAll(): Promise<PostModel[]> {
+  async findAllPublic(): Promise<PostModel[]> {
     await this.simulateWait();
 
     const posts = await this.readFromDisk();
-    return posts;
+    return posts.filter(post => post.published === true);
   }
 
   async findById(id: string): Promise<PostModel> {
     await this.simulateWait();
 
-    const posts = await this.findAll();
+    const posts = await this.findAllPublic();
     const post = posts.find(post => post.id === id);
 
     if (!post) throw new Error('id não encontrado');
