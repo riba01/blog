@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { PostCoverImage } from '../PostCoverImage';
-import { PostHeading } from '../PostHeading';
+import { PostSummary } from '../PostSummary';
 
 export function PostFeatured() {
   const slug = 'post-featured';
@@ -23,30 +23,14 @@ export function PostFeatured() {
           alt: 'Imagem de capa do post',
         }}
       />
-      <div
-        className={clsx('flex flex-col gap-4 sm:justify-center text-justify')}
-      >
-        <time
-          className={clsx('text-sm/tight text-slate-600')}
-          dateTime='2025-07-01'
-        >
-          01/07/2025 22:15
-        </time>
-        <PostHeading as='h1' url={postLink}>
-          Título do post
-        </PostHeading>
-        <p className='text-slate-600'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-          voluptatum, cumque, voluptates, quia quisquam voluptatibus voluptatum
-          cumque voluptates quia.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit
-          saepe suscipit excepturi ratione officiis. Nulla quisquam mollitia
-          natus praesentium non atque ab eligendi, quos ex quam laborum dolorem
-          accusantium aut.
-        </p>
-      </div>
+      <PostSummary
+        postLink={postLink}
+        postHeading='h1'
+        createdAt={'2025-07-16T14:23:00.616Z'}
+        title={'Título do post'}
+        excerpt={'Lorem ipsum dolor sit amet consectetur adipisicing elit.'}
+        key={'post.id'}
+      />
     </section>
   );
 }

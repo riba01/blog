@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import React from 'react';
 
-type PostHeadingProps = {
+export type PostHeadingProps = {
   children: React.ReactNode;
   url: string;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -23,7 +23,7 @@ export function PostHeading({
   };
   return (
     <Tag className={clsx(baseClass[Tag])}>
-      <Link className='group-hover:text-slate-700' href={url}>
+      <Link className='group-hover:text-slate-600' href={url}>
         {children}
       </Link>
     </Tag>
