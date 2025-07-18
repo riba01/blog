@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import { Metadata } from 'next';
-import { PostCoverImage } from '../../../components/PostCoverImage';
-import { PostSummary } from '../../../components/PostSummary';
+import { Suspense } from 'react';
+import { SinglePost } from '../../../components/SinglePost';
+import { SpinLoader } from '../../../components/SpinLoader';
 import { findPostBySlugCached } from '../../../lib/post/queries';
 
 type PostSlugPageProps = {
@@ -29,31 +30,11 @@ export async function generateMetadata({
 export default async function PostSlugPage({ params }: PostSlugPageProps) {
   const { slug } = await params;
 
-  const post = await findPostBySlugCached(slug);
-
-  const postLink = `/post/${post.slug}`;
-
   return (
-    <section className={clsx('grid grid-cols-1 gap-8 mb-16 group')}>
-      <PostCoverImage
-        LinkProps={{
-          href: postLink,
-        }}
-        imageProps={{
-          width: 1200,
-          height: 720,
-          src: post.coverImageUrl,
-          alt: post.title,
-        }}
-      />
-      <PostSummary
-        postLink={postLink}
-        postHeading='h1'
-        createdAt={post.createdAt}
-        title={post.title}
-        excerpt={post.excerpt}
-        key={'post.id'}
-      />
-    </section>
+    <article className={clsx('grid grid-cols-1 gap-8 mb-16 group')}>
+      <Suspense fallback={<SpinLoader className='min-h-20 mb-16' />}>
+        <SinglePost slug={slug} />
+      </Suspense>
+    </article>
   );
 }

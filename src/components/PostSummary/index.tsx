@@ -1,8 +1,5 @@
 import clsx from 'clsx';
-import {
-  formatDateTime,
-  formatRelativeDate,
-} from '../../utils/format-datetime';
+import { PostDate } from '../PostDate';
 import { PostHeading, PostHeadingProps } from '../PostHeading';
 
 type PostSummaryProps = {
@@ -22,13 +19,7 @@ export function PostSummary({
 }: PostSummaryProps) {
   return (
     <div className={clsx('flex flex-col gap-4 sm:justify-center text-justify')}>
-      <time
-        className={clsx('text-sm/tight text-slate-600')}
-        dateTime={createdAt}
-        title={formatRelativeDate(createdAt)}
-      >
-        {formatDateTime(createdAt)}
-      </time>
+      <PostDate dateTime={createdAt} />
       <PostHeading as={postHeading} url={postLink}>
         {title}
       </PostHeading>
