@@ -1,4 +1,8 @@
 'use client';
+//Qualquer server component e seus filhos importado aqui vai se transformar em client component
+// você pode contornar isso importando o component como chield de outro component
+//https://nextjs.org/docs/app/building-your-application/rendering/server-components#client-components
+
 import ErrorMessage from '../components/ErrorMessage';
 
 /* type RootErrorPageProps = {
