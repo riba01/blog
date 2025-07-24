@@ -1,7 +1,10 @@
-import { drizzleDb } from './index';
+import { drizzleDb } from '.';
 import { postsTable } from './schema';
 
 (async () => {
-  const post = await drizzleDb.select().from(postsTable);
-  console.log(post);
+  const posts = await drizzleDb.select().from(postsTable);
+  posts.forEach(post => {
+    console.log(post.title);
+  });
+  //console.log(posts);
 })();
