@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
 export async function revalidateExampleAction(formData: FormData) {
   // This function is used to trigger a revalidation of the example data.
@@ -9,5 +9,8 @@ export async function revalidateExampleAction(formData: FormData) {
   // Add your revalidation logic here, such as clearing caches or updating data sources.
   const path = formData.get('path') as string;
   console.log(`Revalidating path: ${path}`);
-  revalidatePath(path, 'page');
+  //revalidatePath(path, 'page');
+  /* revalidateTag('randomuser'); */
+  revalidateTag('posts');
+  revalidateTag('posts-rotina-matinal-de-pessoas-altamente-eficazes');
 }

@@ -20,3 +20,12 @@ export function formatHour(timestampMs: number): string {
 
   return format(date, 'HH:mm:ss', { locale: ptBR });
 }
+
+/* export async function formatHourCached() {
+  /*  'use cache';
+  unstable_cacheLife('seconds');
+  unstable_cacheTag('randomuser'); */
+/*
+  return formatHour(Date.now());
+}
+ */
