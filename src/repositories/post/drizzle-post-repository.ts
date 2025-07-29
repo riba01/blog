@@ -2,11 +2,14 @@ import { PostModel } from '@/models/post/post-model';
 import { desc } from 'drizzle-orm';
 import { drizzleDb } from '../../db/drizzle';
 import { postsTable } from '../../db/drizzle/schema';
+import { SIMULATE_WAIT } from '../../lib/constants';
+import { asyncDelay } from '../../utils/async-delay';
 import { logColor } from '../../utils/log-colors';
 import { PostRepository } from './post-repository';
 
 export class DrizzlePostRepository implements PostRepository {
   async findAll(): Promise<PostModel[]> {
+    await asyncDelay(SIMULATE_WAIT, true);
     logColor('findAll', Date.now());
     const posts = drizzleDb.query.posts.findMany({
       orderBy: desc(postsTable.createdAt),
@@ -15,6 +18,7 @@ export class DrizzlePostRepository implements PostRepository {
     return posts;
   }
   async findAllPublic(): Promise<PostModel[]> {
+    await asyncDelay(SIMULATE_WAIT, true);
     logColor('findAllPublic', Date.now());
     const posts = drizzleDb.query.posts.findMany({
       orderBy: desc(postsTable.createdAt),
@@ -35,6 +39,7 @@ export class DrizzlePostRepository implements PostRepository {
     return post;
   }
   async findBySlugPublic(slug: string): Promise<PostModel> {
+    await asyncDelay(SIMULATE_WAIT, true);
     logColor('findBySlugPublic', Date.now());
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { and, eq }) =>
