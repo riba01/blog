@@ -1,10 +1,17 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import { findAllPostsAdmin } from '../../lib/post/queries/admin';
-import { DeletePostButton } from '../Admin/DeletePostButtom';
+import { findAllPostsAdmin } from '../../../lib/post/queries/admin';
+import ErrorMessage from '../../ErrorMessage';
+import { DeletePostButton } from '../DeletePostButtom';
 
 export default async function PostListAdmin() {
   const posts = await findAllPostsAdmin();
+  if (posts.length <= 0) {
+    return (
+      <ErrorMessage contentTitle='Opps 😜' contentText='Sem posts criados' />
+    );
+  }
+
   return (
     <div className='mb-16'>
       {posts.map(post => {

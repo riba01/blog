@@ -2,6 +2,7 @@
 import clsx from 'clsx';
 import { Trash2Icon } from 'lucide-react';
 import { useState, useTransition } from 'react';
+import { toast } from 'react-toastify';
 import { DeletePostAction } from '../../../actions/post/delete-post-action';
 import { Dialog } from '../../Dialog';
 
@@ -18,10 +19,17 @@ export function DeletePostButton({ id, title }: DeletePostButtonProps) {
     setShowDialog(true);
   }
   function handleConfirm() {
+    toast.dismiss();
     startTransition(async () => {
       const result = await DeletePostAction(id);
-      console.log(result);
+      /* console.log(result); */
       setShowDialog(false);
+      if (result.error) {
+        /* console.error(result.error); */
+        toast.error(result.error);
+        return;
+      }
+      toast.success(`Post "${title}" excluido com sucesso!`);
     });
   }
   return (

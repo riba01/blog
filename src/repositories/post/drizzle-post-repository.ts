@@ -1,5 +1,5 @@
 import { PostModel } from '@/models/post/post-model';
-import { desc } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { drizzleDb } from '../../db/drizzle';
 import { postsTable } from '../../db/drizzle/schema';
 import { SIMULATE_WAIT } from '../../lib/constants';
@@ -51,6 +51,18 @@ export class DrizzlePostRepository implements PostRepository {
 
     // Se o código continuar, o TypeScript sabe que 'post' é do tipo PostModel.
     return post;
+  }
+
+  async delete(id: string): Promise<void> {
+    const deletedRows = await drizzleDb
+      .delete(postsTable)
+      .where(eq(postsTable.id, id))
+      .limit(1)
+      .returning(); // .returning() é necessário para obter os dados deletados
+
+    if (!deletedRows.length) {
+      throw new Error('Post not found');
+    }
   }
 }
 

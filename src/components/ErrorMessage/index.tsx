@@ -4,19 +4,19 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 type ErrorMessageProps = {
-  pageTitle: string;
+  pageTitle?: string;
   contentTitle: string;
   contentText: React.ReactNode;
 };
 
 export default function ErrorMessage({
-  pageTitle,
+  pageTitle = '',
   contentTitle,
   contentText,
 }: ErrorMessageProps) {
   return (
     <>
-      <title>{pageTitle}</title>
+      {pageTitle && <title>{pageTitle}</title>}
       <div
         className={clsx(
           'min-h-[320px] bg-slate-900 text-slate-200 mb-16 p-8 rounded-2xl',

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Container } from '../components/Container';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
+import { ToastifyContainer } from '../components/ToastifyContainer';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           {children}
           <Footer />
         </Container>
+        <ToastifyContainer />
       </body>
     </html>
   );
