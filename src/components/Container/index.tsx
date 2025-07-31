@@ -4,8 +4,8 @@ type ContainerProps = {
 
 export function Container({ children }: ContainerProps) {
   return (
-    <div className='text-slate-900 bg-slate-300 min-h-screen'>
-      <div className='max-w-screen-lg mx-auto px-8'>{children}</div>
+    <div className='min-h-screen bg-[#f0f4f8] text-[#003F5C]'>
+      <div className='mx-auto max-w-screen-lg px-8'>{children}</div>
     </div>
   );
 }

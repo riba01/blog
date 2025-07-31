@@ -62,18 +62,10 @@ export function MenuAdmin() {
       >
         <HouseIcon size={20} /> Home
       </Link>
-      <Link
-        className={linkClasses}
-        href={'/admin/post'}
-        target='_self noopener noreferrer'
-      >
+      <Link className={linkClasses} href={'/admin/post'} target={'_self'}>
         <FileTextIcon /> Posts
       </Link>
-      <Link
-        className={linkClasses}
-        href={'/admin/post'}
-        target='_self noopener noreferrer'
-      >
+      <Link className={linkClasses} href={'/admin/post/new'} target={'_self'}>
         <FilePlus2Icon /> New Post
       </Link>
     </nav>

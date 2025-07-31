@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { Buttom } from '../Buttom';
 
 type DialogProps = {
   title: string;
@@ -39,10 +40,10 @@ export function Dialog({
     >
       <div
         className={clsx(
-          'bg-slate-400 text-slate-700 p-6 rounded-2xl',
+          'rounded-2xl bg-slate-100 p-6 text-slate-700',
           'max-w-2xl',
           'flex flex-col gap-6',
-          'shadow-lg shadow-gray-700',
+          'shadow-lg shadow-gray-600',
         )}
         role='dialog'
         aria-modal={true}
@@ -50,42 +51,39 @@ export function Dialog({
         aria-describedby='dialog-description'
         onClick={e => e.stopPropagation()}
       >
-        <h3 id='dialog-title' className='text-center font-bold text-xl'>
+        <h3 id='dialog-title' className='text-center text-xl font-bold'>
           {title}
         </h3>
-        <div id='dialog-description' className='text-justify mb-4'>
+        <div id='dialog-description' className='mb-4 text-justify'>
           {content}
         </div>
-        <div className={clsx('flex flex-row itens-center justify-around')}>
-          <button
-            className={clsx(
-              'flex items-center justify-center',
-              'bg-slate-300 text-slate-900',
-              'px-4 py-2 rounded-lg',
-              'hover:bg-slate-500 transition',
-              'cursor-pointer',
-            )}
+        <div className={clsx('itens-center flex flex-row justify-around')}>
+          <Buttom
+            variant='ghost'
             autoFocus
             onClick={onClose}
             disabled={disabled}
+            size={'md'}
           >
             Cancelar
-          </button>
-          <button
+          </Buttom>
+          <Buttom
+            variant='default'
             className={clsx(
               'flex items-center justify-center',
               'bg-blue-500 text-blue-50',
-              'px-4 py-2 rounded-lg',
-              'hover:bg-blue-600 transition',
+              'rounded-lg px-4 py-2',
+              'transition hover:bg-blue-600',
               'cursor-pointer',
-              'disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed',
+              'disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500',
             )}
             onClick={onConfirm}
             disabled={disabled}
             aria-label='Confirmar exclusão'
+            size={'md'}
           >
             Ok
-          </button>
+          </Buttom>
         </div>
       </div>
     </div>

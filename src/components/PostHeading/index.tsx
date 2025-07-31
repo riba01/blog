@@ -14,12 +14,12 @@ export function PostHeading({
   as: Tag = 'h2',
 }: PostHeadingProps) {
   const baseClass = {
-    h1: 'text-2xl/tight font-extrabold text-slate-900 sm:text-4xl',
-    h2: 'text-xl/tight font-bold text-slate-900 sm:text-2xl',
-    h3: 'text-lg/tight font-bold text-slate-900 sm:text-2xl',
-    h4: 'text-md/tight font-bold text-slate-900 sm:text-xl',
-    h5: 'text-sm/tight font-bold text-slate-900 sm:text-lg',
-    h6: 'text-sm/tight font-bold text-slate-900 sm:text-md',
+    h1: 'text-2xl/tight font-extrabold text-[#003F5C] sm:text-4xl',
+    h2: 'text-xl/tight font-bold text-[#003F5C] sm:text-2xl',
+    h3: 'text-lg/tight font-bold text-[#003F5C] sm:text-2xl',
+    h4: 'text-md/tight font-bold text-[#003F5C] sm:text-xl',
+    h5: 'text-sm/tight font-bold text-[#003F5C] sm:text-lg',
+    h6: 'text-sm/tight font-bold text-[#003F5C] sm:text-md',
   };
   return (
     <Tag className={clsx(baseClass[Tag])}>
