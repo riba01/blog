@@ -9,7 +9,7 @@ export function ToastifyContainer() {
       autoClose={3000}
       hideProgressBar={false}
       newestOnTop={false}
-      closeOnClick={false}
+      closeOnClick={true}
       rtl={false}
       pauseOnFocusLoss
       draggable
