@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import { useActionState, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { createPostAction } from '../../../actions/post/create-post-action';
 import { makePartialPublicPost, PublicPost } from '../../../dto/post/dto';
 import { Buttom } from '../../Buttom';
@@ -23,12 +24,15 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
     createPostAction,
     initialState,
   );
+  useEffect(() => {
+    if (state.errors.length > 0) {
+      state.errors.forEach(error => toast.error(error));
+    }
+  }, [state.errors]);
 
   const { formState } = state;
   const [contentValue, setContentValue] = useState(publicPost?.content || '');
-  useEffect(() => {
-    console.log(state.numero);
-  }, [state.numero]);
+
   return (
     <form action={action} className='mb-16'>
       <div
@@ -93,7 +97,7 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
 
         <InputCheckbox
           labelText={'Publicar?'}
-          name='publish'
+          name='published'
           defaultChecked={formState.published}
         />
 
