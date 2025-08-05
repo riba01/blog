@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { ManagePostForm } from '../../../../components/Admin/ManagePostForm';
 import { findPostByIdAdmin } from '../../../../lib/post/queries/admin';
 
@@ -14,7 +15,8 @@ export default async function AdminPostIdPage({
   params,
 }: AdminPostIdPageProps) {
   const { id } = await params;
-  const post = await findPostByIdAdmin(id);
+  const post = await findPostByIdAdmin(id).catch(() => undefined);
+  if (!post) notFound();
   /*  console.log(id); */
   return (
     <>

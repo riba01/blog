@@ -2,13 +2,12 @@ import { PostModel } from '@/models/post/post-model';
 import { desc, eq } from 'drizzle-orm';
 import { drizzleDb } from '../../db/drizzle';
 import { postsTable } from '../../db/drizzle/schema';
-import { logColor } from '../../utils/log-colors';
 import { PostRepository } from './post-repository';
 
 export class DrizzlePostRepository implements PostRepository {
   async findAll(): Promise<PostModel[]> {
     /* await asyncDelay(SIMULATE_WAIT, true); */
-    logColor('findAll', Date.now());
+    /* logColor('findAll', Date.now()); */
     const posts = drizzleDb.query.posts.findMany({
       orderBy: desc(postsTable.createdAt),
     });
@@ -17,7 +16,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
   async findAllPublic(): Promise<PostModel[]> {
     /* await asyncDelay(SIMULATE_WAIT, true); */
-    logColor('findAllPublic', Date.now());
+    /* logColor('findAllPublic', Date.now()); */
     const posts = drizzleDb.query.posts.findMany({
       orderBy: desc(postsTable.createdAt),
       where: (posts, { eq }) => eq(posts.published, true),
@@ -38,7 +37,7 @@ export class DrizzlePostRepository implements PostRepository {
   }
   async findBySlugPublic(slug: string): Promise<PostModel> {
     /* await asyncDelay(SIMULATE_WAIT, true); */
-    logColor('findBySlugPublic', Date.now());
+    /* logColor('findBySlugPublic', Date.now()); */
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { and, eq }) =>
         and(eq(posts.published, true), eq(posts.slug, slug)),
