@@ -12,7 +12,7 @@ export default async function AdminPostNewPage() {
       <div className='flex w-full flex-col'>
         <h1 className='text-center text-xl font-bold'>New Post</h1>
       </div>
-      <ManagePostForm />
+      <ManagePostForm mode='create' />
     </>
   );
 }

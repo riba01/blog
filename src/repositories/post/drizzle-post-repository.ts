@@ -53,16 +53,68 @@ export class DrizzlePostRepository implements PostRepository {
     return post;
   }
 
-  async delete(id: string): Promise<void> {
-    const deletedRows = await drizzleDb
+  async delete(id: string): Promise<PostModel> {
+    const post = await drizzleDb.query.posts.findFirst({
+      where: (post, { eq }) => eq(post.id, post.id),
+    });
+    if (!post) {
+      throw new Error('Post not found');
+    }
+    await drizzleDb
       .delete(postsTable)
       .where(eq(postsTable.id, id))
       .limit(1)
       .returning(); // .returning() é necessário para obter os dados deletados
 
-    if (!deletedRows.length) {
+    return post;
+  }
+
+  async create(post: PostModel): Promise<PostModel> {
+    const postExist = await drizzleDb.query.posts.findFirst({
+      where: (table, { or, eq }) =>
+        or(eq(table.id, post.id), eq(table.slug, post.slug)),
+      columns: { id: true },
+    });
+
+    if (!!postExist) {
+      throw new Error('Post com ID ou Slug já salvos na BD');
+    }
+
+    await drizzleDb.insert(postsTable).values(post);
+    return post;
+  }
+  async update(
+    id: string,
+    newPostData: Omit<PostModel, 'id' | 'slug' | 'createdAt' | 'updatedAt'>,
+  ): Promise<PostModel> {
+    const postExist = await drizzleDb.query.posts.findFirst({
+      where: (post, { eq }) => eq(post.id, post.id),
+    });
+
+    if (!postExist) {
       throw new Error('Post not found');
     }
+
+    const updatedAt = new Date().toISOString();
+    const postData = {
+      author: newPostData.author,
+      content: newPostData.content,
+      coverImageUrl: newPostData.coverImageUrl,
+      excerpt: newPostData.excerpt,
+      published: newPostData.published,
+      title: newPostData.title,
+      updatedAt: updatedAt,
+    };
+
+    await drizzleDb
+      .update(postsTable)
+      .set(postData)
+      .where(eq(postsTable.id, id));
+
+    return {
+      ...postExist,
+      ...postData,
+    };
   }
 }
 

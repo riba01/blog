@@ -1,26 +1,26 @@
 'use server';
 
 import { revalidateTag } from 'next/cache';
-import { redirect } from 'next/navigation';
-import { v7 as uuidV7 } from 'uuid';
 import z from 'zod';
-import { makePartialPublicPost, PublicPost } from '../../dto/post/dto';
-import { PostCreateSchema } from '../../lib/post/validations';
-import { PostModel } from '../../models/post/post-model';
+import {
+  makePartialPublicPost,
+  makePublicPostFromDb,
+  PublicPost,
+} from '../../dto/post/dto';
+import { PostUpdateSchema } from '../../lib/post/validations';
 import { postRepository } from '../../repositories/post';
 import { getZodErrorMessages } from '../../utils/get-zod-error-messages';
-import { makeSlugtext } from '../../utils/make-slug-text';
 
-type CreatePostActionProps = {
+type UpdatePostActionProps = {
   formState: PublicPost;
   errors: string[];
   success?: true;
 };
 
-export async function createPostAction(
-  prevState: CreatePostActionProps,
+export async function updatePostAction(
+  prevState: UpdatePostActionProps,
   formData: FormData,
-): Promise<CreatePostActionProps> {
+): Promise<UpdatePostActionProps> {
   /* console.log({ prevState });
   console.log(formData); */
   if (!(formData instanceof FormData)) {
@@ -30,12 +30,21 @@ export async function createPostAction(
     };
   }
 
+  //pegar o id
+  const id = formData.get('id')?.toString() || '';
+
+  if (!id || typeof id !== 'string') {
+    return {
+      formState: prevState.formState,
+      errors: ['ID inválido'],
+    };
+  }
   //pagar os dados do formulário
   // entries retorna um interator (método) para cada entries retorna um arrya [chave, valor]
 
   const formDataObj = Object.fromEntries(formData.entries());
 
-  const zodParsedObj = PostCreateSchema.safeParse(formDataObj);
+  const zodParsedObj = PostUpdateSchema.safeParse(formDataObj);
 
   if (!zodParsedObj.success) {
     const errors = getZodErrorMessages(z.treeifyError(zodParsedObj.error));
@@ -47,36 +56,33 @@ export async function createPostAction(
 
   const validPostData = zodParsedObj.data;
 
-  const newPost: PostModel = {
+  const newPost = {
     ...validPostData,
-    id: uuidV7(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    slug: `${makeSlugtext(validPostData.title)}-${uuidV7().split('-')[0]}`,
   };
 
   //
+  let post;
   try {
-    await postRepository.create(newPost);
-    //console.log(newPost);
+    post = await postRepository.update(id, newPost);
   } catch (error: unknown) {
     if (error instanceof Error) {
       return {
-        formState: newPost,
+        formState: makePartialPublicPost(formDataObj),
         errors: [error.message],
       };
     }
     return {
-      formState: newPost,
+      formState: makePartialPublicPost(formDataObj),
       errors: ['Erro desconhecido'],
     };
   }
 
   revalidateTag('posts');
   //redireciona
-  redirect(`/admin/post/${newPost.id}?created=true`);
-  /* return {
-    formState: newPost,
+  revalidateTag(`post-${post.slug}`);
+  return {
+    formState: makePublicPostFromDb(post),
     errors: [],
-  }; */
+    success: true,
+  };
 }

@@ -9,7 +9,11 @@ import { IMAGE_UPLOADER_MAX_SIZE } from '../../../lib/constants';
 import { getImageTypeByMagicBytes } from '../../../lib/getImageTypeByMagicBytes';
 import { Buttom } from '../../Buttom';
 
-export function ImageUploader() {
+type ImageUploaderProps = {
+  disabled?: boolean;
+};
+
+export function ImageUploader({ disabled = false }: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [isUploading, startTransition] = useTransition();
@@ -105,7 +109,7 @@ export function ImageUploader() {
         type='button'
         onClick={handleChooseFile}
         size='md'
-        disabled={isUploading}
+        disabled={isUploading || disabled}
       >
         <ImageUpIcon />
         Enviar imagem
@@ -120,6 +124,7 @@ export function ImageUploader() {
         className='hidden'
         accept='image/*'
         onChange={handleChange}
+        disabled={isUploading || disabled}
       />
       {imgUrl && previewUrl && (
         <div className='flex w-full flex-col gap-2 py-4'>
