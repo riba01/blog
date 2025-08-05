@@ -15,7 +15,7 @@ export default async function AdminPostIdPage({
 }: AdminPostIdPageProps) {
   const { id } = await params;
   const post = await findPostByIdAdmin(id);
-  console.log(id);
+  /*  console.log(id); */
   return (
     <>
       <div className='flex w-full flex-col'>

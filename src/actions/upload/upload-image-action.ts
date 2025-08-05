@@ -71,7 +71,7 @@ export async function uploadImageAction(
   //Gerar o caminho para o arquivo
   const fileFullPath = resolve(folderPath, uniqueImageName);
 
-  console.log(fileFullPath);
+  /*   console.log(fileFullPath); */
 
   await writeFile(fileFullPath, buffer);
 
