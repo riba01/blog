@@ -1,8 +1,6 @@
 import { PostModel } from '@/models/post/post-model';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
-import { SIMULATE_WAIT } from '../../lib/constants';
-import { asyncDelay } from '../../utils/async-delay';
 import { PostRepository } from './post-repository';
 
 const ROOT_DIR = process.cwd();
@@ -41,7 +39,7 @@ export class JsonPostRepository implements PostRepository {
   }
 
   async findBySlugPublic(slug: string): Promise<PostModel> {
-    await asyncDelay(SIMULATE_WAIT, true);
+    /* await asyncDelay(SIMULATE_WAIT, true); */
 
     const posts = await this.findAllPublic();
     const post = posts.find(post => post.slug === slug);
@@ -49,5 +47,17 @@ export class JsonPostRepository implements PostRepository {
     if (!post) throw new Error('Post não encontrado');
 
     return post;
+  }
+  async create(post: PostModel): Promise<PostModel> {
+    throw new Error(`Post não encontrado nesse ID ${post.id}`);
+  }
+  async update(
+    id: string,
+    newPostData: Omit<PostModel, 'id' | 'slug' | 'createdAt' | 'updatedAt'>,
+  ): Promise<PostModel> {
+    throw new Error(`Post não encontrado nesse ID ${(id, newPostData)}`);
+  }
+  async delete(id: string): Promise<PostModel> {
+    throw new Error(`Post não encontrado nesse ID ${id}`);
   }
 }
