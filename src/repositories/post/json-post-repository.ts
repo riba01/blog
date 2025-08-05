@@ -55,7 +55,7 @@ export class JsonPostRepository implements PostRepository {
     id: string,
     newPostData: Omit<PostModel, 'id' | 'slug' | 'createdAt' | 'updatedAt'>,
   ): Promise<PostModel> {
-    throw new Error(`Post não encontrado nesse ID ${(id, newPostData)}`);
+    throw new Error(`Post não encontrado nesse ID ${id}, ${newPostData}`);
   }
   async delete(id: string): Promise<PostModel> {
     throw new Error(`Post não encontrado nesse ID ${id}`);
