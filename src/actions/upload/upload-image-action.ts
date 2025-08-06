@@ -2,11 +2,6 @@
 
 import { mkdir, writeFile } from 'fs/promises';
 import { extname, resolve } from 'path';
-import {
-  IMAGE_SERVER_URL,
-  IMAGE_UPLOADER_DIRECTORY,
-  IMAGE_UPLOADER_MAX_SIZE,
-} from '../../lib/constants';
 import { convertToWebp } from '../../lib/convertToWebp';
 import { getImageTypeByMagicBytes } from '../../lib/getImageTypeByMagicBytes';
 
@@ -29,8 +24,11 @@ export async function uploadImageAction(
     return makeResult({ error: 'Arquivo invalido' });
   }
 
-  if (file.size > IMAGE_UPLOADER_MAX_SIZE) {
-    const readMaxImageFile = IMAGE_UPLOADER_MAX_SIZE / 1024;
+  const image_upload_max_size =
+    Number(process.env.NEXT_PUBLIC_IMAGE_UPLOADER_MAX_SIZE) || 921600;
+
+  if (file.size > image_upload_max_size) {
+    const readMaxImageFile = (image_upload_max_size / 1024).toFixed(2);
     return makeResult({
       error: `Imagem não pode ser maior que ${readMaxImageFile}Kb`,
     });
@@ -59,7 +57,8 @@ export async function uploadImageAction(
   /* console.log('Teste ', uniqueImageName); */
 
   //verifica se a pasta existe e se não existe criar
-
+  const IMAGE_UPLOADER_DIRECTORY =
+    process.env.NEXT_PUBLIC_IMAGE_UPLOADER_DIRECTORY || 'uploads';
   const folderPath = resolve(process.cwd(), 'public', IMAGE_UPLOADER_DIRECTORY);
 
   await mkdir(folderPath, { recursive: true });
@@ -74,6 +73,8 @@ export async function uploadImageAction(
   /*   console.log(fileFullPath); */
 
   await writeFile(fileFullPath, buffer);
+
+  const IMAGE_SERVER_URL = process.env.NEXT_PUBLIC_IMAGE_SERVER_URL;
 
   const url = `${IMAGE_SERVER_URL}/${uniqueImageName}`;
   return makeResult({ url: url });

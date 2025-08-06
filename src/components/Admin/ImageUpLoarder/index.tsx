@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useRef, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 import { uploadImageAction } from '../../../actions/upload/upload-image-action';
-import { IMAGE_UPLOADER_MAX_SIZE } from '../../../lib/constants';
 import { getImageTypeByMagicBytes } from '../../../lib/getImageTypeByMagicBytes';
 import { Buttom } from '../../Buttom';
 
@@ -64,10 +63,11 @@ export function ImageUploader({ disabled = false }: ImageUploaderProps) {
       setPreviewUrl(null);
       return;
     }
-
+    const image_upload_max_size =
+      Number(process.env.NEXT_PUBLIC_IMAGE_UPLOADER_MAX_SIZE) || 921600;
     /* console.log(file); */
-    if (file.size > IMAGE_UPLOADER_MAX_SIZE) {
-      const readMaxImageFile = IMAGE_UPLOADER_MAX_SIZE / 1024;
+    if (file.size > image_upload_max_size) {
+      const readMaxImageFile = image_upload_max_size / 1024;
       toast.error(`Imagem não pode ser maior que ${readMaxImageFile}Kb`);
       setPreviewUrl(null);
 

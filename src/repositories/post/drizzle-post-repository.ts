@@ -2,11 +2,14 @@ import { PostModel } from '@/models/post/post-model';
 import { desc, eq } from 'drizzle-orm';
 import { drizzleDb } from '../../db/drizzle';
 import { postsTable } from '../../db/drizzle/schema';
+import { asyncDelay } from '../../utils/async-delay';
 import { PostRepository } from './post-repository';
+
+const simulatewait = Number(process.env.SIMULATE_WAIT) || 0;
 
 export class DrizzlePostRepository implements PostRepository {
   async findAll(): Promise<PostModel[]> {
-    /* await asyncDelay(SIMULATE_WAIT, true); */
+    await asyncDelay(simulatewait, true);
     /* logColor('findAll', Date.now()); */
     const posts = drizzleDb.query.posts.findMany({
       orderBy: desc(postsTable.createdAt),

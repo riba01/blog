@@ -16,3 +16,15 @@ export const postsTable = sqliteTable('posts', {
 
 export type PostsTableSelectModel = InferSelectModel<typeof postsTable>;
 export type PostsTableInsertModel = InferInsertModel<typeof postsTable>;
+
+// Nova tabela login
+export const loginTable = sqliteTable('login', {
+  id: integer('id').primaryKey().notNull(),
+  username: text('username').notNull().unique(),
+  passwordHash: text('password_hash').notNull(),
+  createdAt: text('created_at').notNull(),
+  updatedAt: text('updated_at').notNull(),
+});
+
+export type LoginTableSelectModel = InferSelectModel<typeof loginTable>;
+export type LoginTableInsertModel = InferInsertModel<typeof loginTable>;
