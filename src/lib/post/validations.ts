@@ -22,7 +22,7 @@ const PostBaseSchema = z.object({
     .string()
     .trim()
     .min(3, 'Excerto precisa de um mínimo de 3 caracteres')
-    .max(200, 'Excerto não deve ter mais que 200 caracteres'),
+    .max(400, 'Excerto não deve ter mais que 400 caracteres'),
   coverImageUrl: z.string().trim().refine(isUrlOrRelativePath, {
     message: 'URL da capa deve ser uma URL ou caminho para imagem',
   }),

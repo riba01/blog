@@ -11,10 +11,17 @@ import { asyncDelay } from '../../utils/async-delay';
 type LoginActionProps = {
   username: string;
   error: string;
-  success?: string;
 };
 
 export async function loginAction(state: LoginActionProps, formData: FormData) {
+  const allowLogin = Boolean(Number(process.env.ALLOW_LOGIN));
+  if (!allowLogin) {
+    return {
+      username: '',
+      error: 'Login not allowed',
+    };
+  }
+
   await asyncDelay(2000, true);
   if (!(formData instanceof FormData)) {
     return {

@@ -16,15 +16,11 @@ export default function LoginForm() {
   const initialState = {
     username: '',
     error: '',
-    success: '',
   };
   const [state, action, isPending] = useActionState(loginAction, initialState);
   useEffect(() => {
     if (state.error) {
       toast.error(state.error);
-    }
-    if (state.success) {
-      toast.success(state.success);
     }
   }, [state]);
   return (

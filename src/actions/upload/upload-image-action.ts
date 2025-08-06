@@ -4,6 +4,7 @@ import { mkdir, writeFile } from 'fs/promises';
 import { extname, resolve } from 'path';
 import { convertToWebp } from '../../lib/convertToWebp';
 import { getImageTypeByMagicBytes } from '../../lib/getImageTypeByMagicBytes';
+import { verifyLoginSession } from '../../lib/login/manage-login';
 
 type UpuLoadImageActionResult = {
   url: string;
@@ -13,6 +14,12 @@ export async function uploadImageAction(
   formdata: FormData,
 ): Promise<UpuLoadImageActionResult> {
   const makeResult = ({ url = '', error = '' }) => ({ url, error });
+  const isAuthenticated = await verifyLoginSession();
+  if (!isAuthenticated) {
+    return makeResult({
+      error: 'Faça login em outra aba do navegador!',
+    });
+  }
 
   if (!(formdata instanceof FormData)) {
     return makeResult({ url: '', error: 'Dados invalidos' });

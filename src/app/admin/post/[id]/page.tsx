@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ManagePostForm } from '../../../../components/Admin/ManagePostForm';
+import { requireLoginSessionRedirect } from '../../../../lib/login/manage-login';
 import { findPostByIdAdmin } from '../../../../lib/post/queries/admin';
 
 export const dynamic = 'force-dynamic';
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export default async function AdminPostIdPage({
   params,
 }: AdminPostIdPageProps) {
+  await requireLoginSessionRedirect();
   const { id } = await params;
   const post = await findPostByIdAdmin(id).catch(() => undefined);
   if (!post) notFound();
