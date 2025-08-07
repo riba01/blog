@@ -7,7 +7,7 @@ const dbPath = resolve(process.cwd(), 'db.sqlite3');
 const db = new Database(dbPath);
 
 export const drizzleDb = drizzle(db, {
-  logger: true,
+  logger: false,
   schema: {
     posts: postsTable,
     login: loginTable,

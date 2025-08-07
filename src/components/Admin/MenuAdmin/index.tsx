@@ -6,15 +6,18 @@ import {
   FilePlus2Icon,
   FileTextIcon,
   HouseIcon,
+  LogOutIcon,
   MenuIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
+import { logoutAction } from '../../../actions/login/logout-action';
 
 export function MenuAdmin() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     setIsOpen(false);
@@ -41,6 +44,13 @@ export function MenuAdmin() {
   );
 
   const openCloseMenu = clsx(linkClasses, 'text-blue-200 xs:hidden');
+
+  function handleLogout(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    e.preventDefault();
+    startTransition(async () => {
+      await logoutAction();
+    });
+  }
   return (
     <nav className={navClasses}>
       <button className={openCloseMenu} onClick={() => setIsOpen(s => !s)}>
@@ -67,6 +77,18 @@ export function MenuAdmin() {
       </Link>
       <Link className={linkClasses} href={'/admin/post/new'} target={'_self'}>
         <FilePlus2Icon /> New Post
+      </Link>
+      <Link
+        className={linkClasses}
+        href={'#'}
+        target={'_self'}
+        onClick={handleLogout}
+      >
+        {!isPending && (
+          <>
+            <LogOutIcon /> Sair
+          </>
+        )}
       </Link>
     </nav>
   );

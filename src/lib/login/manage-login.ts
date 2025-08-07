@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
-import { jwtVerify, SignJWT } from 'jose';
+import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { loginRepository } from '../../models/login';
+import { verifyJwt } from '../verify-jwt-edge';
+import { verifyLoginSession } from './verifyLoginSession';
 
 const jwtSecretKey = process.env.JWT_SECRET_KEY;
 const jwtEncodedKey = new TextEncoder().encode(jwtSecretKey);
@@ -54,22 +55,6 @@ export async function getLoginSession() {
   return verifyJwt(jwt);
 }
 
-export async function verifyLoginSession() {
-  const jwtPayload = await getLoginSession();
-
-  if (!jwtPayload || jwtPayload === undefined) return false;
-
-  //Checa se o username é do usuario cadastrado
-  const username = jwtPayload.username as string;
-  const isUserNameValid = await loginRepository
-    .findByUser(username)
-    .catch(() => undefined);
-
-  if (!isUserNameValid) return false;
-
-  return isUserNameValid.username === jwtPayload.username;
-}
-
 export async function requireLoginSessionRedirect() {
   const isAuthenticated = await verifyLoginSession();
   if (!isAuthenticated) {
@@ -85,7 +70,7 @@ export async function signJwt(jwtPayload: JwtPayload) {
     .sign(jwtEncodedKey);
 }
 
-export async function verifyJwt(jwt: string | undefined = '') {
+/* export async function verifyJwt(jwt: string | undefined = '') {
   try {
     const { payload } = await jwtVerify(jwt, jwtEncodedKey, {
       algorithms: ['HS256'],
@@ -96,3 +81,4 @@ export async function verifyJwt(jwt: string | undefined = '') {
     return false;
   }
 }
+*/
