@@ -4,7 +4,7 @@ import { mkdir, writeFile } from 'fs/promises';
 import { extname, resolve } from 'path';
 import { convertToWebp } from '../../lib/convertToWebp';
 import { getImageTypeByMagicBytes } from '../../lib/getImageTypeByMagicBytes';
-import { verifyLoginSession } from '../../lib/login/manage-login';
+import { verifyLoginSession } from '../../lib/login/verifyLoginSession';
 
 type UpuLoadImageActionResult = {
   url: string;

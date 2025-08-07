@@ -7,7 +7,7 @@ import {
   makePublicPostFromDb,
   PublicPost,
 } from '../../dto/post/dto';
-import { verifyLoginSession } from '../../lib/login/manage-login';
+import { verifyLoginSession } from '../../lib/login/verifyLoginSession';
 import { PostUpdateSchema } from '../../lib/post/validations';
 import { postRepository } from '../../repositories/post';
 import { getZodErrorMessages } from '../../utils/get-zod-error-messages';

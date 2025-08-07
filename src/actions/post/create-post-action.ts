@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { v7 as uuidV7 } from 'uuid';
 import z from 'zod';
 import { makePartialPublicPost, PublicPost } from '../../dto/post/dto';
-import { verifyLoginSession } from '../../lib/login/manage-login';
+import { verifyLoginSession } from '../../lib/login/verifyLoginSession';
 import { PostCreateSchema } from '../../lib/post/validations';
 import { PostModel } from '../../models/post/post-model';
 import { postRepository } from '../../repositories/post';
